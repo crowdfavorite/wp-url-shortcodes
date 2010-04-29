@@ -49,6 +49,36 @@ function cfurlsc_plugins_url($atts) {
 }
 add_shortcode('plugins_url', 'cfurlsc_plugins_url');
 
+/**
+ * Always returns the url to the current theme.
+ */
+function cfurlsc_theme_url($atts) {
+	extract(shortcode_atts(array(
+		'path' => null
+	), $atts));
+	
+	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+		$url .= ltrim($path, '/');
+	
+	return trailingslashit(get_stylesheet_directory_uri()) . $path;
+}
+add_shortcode('theme_url', 'cfurlsc_theme_url');
+
+/**
+ * If your theme does not have a parent theme, this will return the url to your active theme.
+ * If your theme does have a parent theme, it will return the url to the parent theme.
+ */
+function cfurlsc_parent_theme_url($atts) {
+	extract(shortcode_atts(array(
+		'path' => null
+	), $atts));
+	
+	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+		$url .= ltrim($path, '/');
+	
+	return trailingslashit(get_template_directory_uri()) . $path;
+}
+add_shortcode('parent_theme_url', 'cfurlsc_parent_theme_url');
 
 function cfurlsc_home_url($atts) {
 	extract(shortcode_atts(array(
